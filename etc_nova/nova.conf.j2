@@ -1,0 +1,139 @@
+[DEFAULT]
+aggregate_image_properties_isolation_namespace = ''
+aggregate_image_properties_isolation_separator = .
+use_stderr = True
+default_log_levels = amqp=WARN,amqplib=WARN,boto=WARN,iso8601=WARN,keystonemiddleware=WARN,oslo.messaging=DEBUG,oslo_messaging=DEBUG,qpid=WARN,requests.packages.urllib3.connectionpool=WARN,requests.packages.urllib3.util.retry=WARN,routes.middleware=WARN,sqlalchemy=WARN,stevedore=WARN,suds=INFO,taskflow=WARN,urllib3.connectionpool=WARN,urllib3.util.retry=WARN,websocket=WARN
+rpc_backend = nova.openstack.common.rpc.impl_kombu
+scheduler_use_baremetal_filters=False
+notify_api_faults=False
+quota_server_group_members=10
+osapi_compute_listen={{env['HOST_ADDRESS']}}
+scheduler_default_filters=AggregateImagePropertiesIsolation,AggregateInstanceExtraSpecsFilter,RetryFilter,AvailabilityZoneFilter,RamFilter,CoreFilter,DiskFilter,ComputeFilter,ComputeCapabilitiesFilter,ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter
+quota_ram=51200
+max_io_ops_per_host=8
+quota_driver=nova.quota.DbQuotaDriver
+max_age=0
+quota_security_groups=50
+novncproxy_host={{env['HOST_ADDRESS']}}10.10.32.20
+state_path=/var/lib/nova
+report_interval=60
+scheduler_weight_classes=nova.scheduler.weights.all_weighers
+quota_cores=20
+reservation_expire=86400
+enabled_apis=osapi_compute,metadata
+osapi_compute_listen_port=8774
+image_service=nova.image.glance.GlanceImageService
+volume_api_class=nova.volume.cinder.API
+use_cow_images=True
+notify_on_state_change=vm_and_task_state
+until_refresh=0
+scheduler_host_subset_size=30
+novncproxy_port=6080
+quota_fixed_ips=-1
+ram_allocation_ratio=1.05
+default_floating_pool=admin_floating_net
+scheduler_driver=nova.scheduler.filter_scheduler.FilterScheduler
+quota_security_group_rules=20
+disk_allocation_ratio=1.0
+api_paste_config=/etc/nova/api-paste.ini
+quota_floating_ips=1
+quota_key_pairs=10
+scheduler_max_attempts=3
+cpu_allocation_ratio=8.0
+metadata_listen_port=8775
+max_instances_per_host=50
+scheduler_available_filters=nova.scheduler.filters.all_filters
+service_down_time=180
+use_syslog_rfc_format=True
+quota_instances=10
+scheduler_host_manager=nova.scheduler.host_manager.HostManager
+notification_topics=notifications, lma_notifications
+use_forwarded_for=False
+osapi_volume_listen={{env['HOST_ADDRESS']}}
+metadata_listen={{env['HOST_ADDRESS']}}
+quota_injected_file_path_length=4096
+auth_strategy=keystone
+ram_weight_multiplier=1.0
+quota_server_groups=10
+quota_metadata_items=1024
+osapi_compute_workers=30
+rootwrap_config=/etc/nova/rootwrap.conf
+secure_proxy_ssl_header=HTTP_X_FORWARDED_PROTO
+teardown_unused_network_gateway=True
+quota_injected_files=50
+metadata_workers=48
+quota_injected_file_content_bytes=102400
+allow_resize_to_same_host=True
+fping_path=/usr/bin/fping
+use_neutron=True
+security_group_api=neutron
+firewall_driver=nova.virt.firewall.NoopFirewallDriver
+vif_plugging_is_fatal=True
+vif_plugging_timeout=300
+dhcp_domain=novalocal
+notification_driver=messaging
+default_availability_zone=uswestsj1a
+osapi_max_limit=5000
+
+[database]
+connection = mysql+pymysql://nova:jzXqYmQfqidWDTSdgjpQH6aU@{{env['MYSQL_HOST']}}/nova?charset=utf8&read_timeout=60
+idle_timeout = 3600
+max_pool_size = 30
+max_retries = -1
+max_overflow = 60
+
+[keystone_authtoken]
+auth_uri = http://{{env['KEYSTONE_HOST']}}:5000/
+signing_dir = /
+admin_password=RJB0ahWnHc0e56rFgfkrCg6G
+admin_user=nova
+signing_dirname=/tmp/keystone-signing-nova
+admin_tenant_name=services
+identity_uri=http://{{env['KEYSTONE_HOST']}}:35357/
+[matchmaker_redis]
+[oslo_concurrency]
+lock_path = /var/lock/nova
+[oslo_messaging_amqp]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+amqp_durable_queues = False
+kombu_reconnect_delay = 1.0
+rabbit_hosts = {{env['RABBIT_HOST']}}
+heartbeat_rate = 2
+
+[neutron]
+service_metadata_proxy=True
+metadata_proxy_shared_secret=lmsxiZIPAUHFJG5vpOLUUqZL
+project_name=services
+extension_sync_interval=600
+password=fBmT6W9gXe1jnYN2HHgguMMu
+auth_plugin=v3password
+auth_url=http://{{env['KEYSTONE_HOST']}}:35357/v3
+user_domain_name=Default
+timeout=60
+project_domain_name=Default
+url=http://10.10.32.41:9696
+ovs_bridge=br-int
+region_name=uswestsj1
+username=neutron
+
+[api_database]
+connection=mysql+pymysql://nova_api:jzXqYmQfqidWDTSdgjpQH6aU@{{env['MYSQL_HOST']}}/nova_api?charset=utf8&read_timeout=60
+
+[conductor]
+use_local=False
+workers=1
+
+[osapi_v3]
+enabled=False
+
+[vnc]
+novncproxy_base_url=http://{{env['HOST_ADDRESS']}}:6080/vnc_auto.html
+
+[glance]
+api_servers=http://{{env['HOST_ADDRESS']}}:9292
+
+[cinder]
+catalog_info=volumev2:cinderv2:internalURL
+os_region_name=uswestsj1
+
