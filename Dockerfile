@@ -13,6 +13,8 @@ RUN apt-get -q update >/dev/null \
   && apt-get autoremove --yes \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/ 
 
+COPY etc_nova/ /etc/nova
+COPY etc_nova/rootwrap.d/ /etc/nova/rootwrap.d/
 COPY start_nova.sh /usr/bin/start_nova.sh
 
 ENTRYPOINT ["/usr/bin/true"]
